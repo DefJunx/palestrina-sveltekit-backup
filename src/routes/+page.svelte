@@ -1,2 +1,19 @@
-<h1 class="text-3xl text-center">Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { ThemeSupa } from '@supabase/auth-ui-shared';
+	import { Auth } from '@supabase/auth-ui-svelte';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+</script>
+
+<div class="flex h-screen items-center justify-center">
+	<div class="flex w-full flex-col gap-y-8 md:max-w-3xl">
+		<h1 class="text-center text-2xl">Palestrina</h1>
+		<Auth
+			additionalData={{}}
+			supabaseClient={data.supabase}
+			appearance={{ theme: ThemeSupa }}
+			redirectTo={`${data.url}/logging-in?redirect=/account`}
+		/>
+	</div>
+</div>
