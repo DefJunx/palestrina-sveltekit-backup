@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { ThemeSupa } from '@supabase/auth-ui-shared';
 	import { Auth } from '@supabase/auth-ui-svelte';
-	import type { PageData } from './$types';
 
-	export let data: PageData;
+	export let data;
 </script>
 
 <div class="flex h-screen items-center justify-center">
