@@ -11,7 +11,17 @@
 		<Auth
 			additionalData={{}}
 			supabaseClient={data.supabase}
-			appearance={{ theme: ThemeSupa }}
+			appearance={{
+				theme: ThemeSupa,
+				variables: {
+					default: {
+						colors: {
+							brand: 'hsl(43 96% 56%)',
+							brandAccent: 'hsl(43 96% 56%)'
+						}
+					}
+				}
+			}}
 			redirectTo={`${data.url}/logging-in?redirect=/account`}
 		/>
 	</div>
