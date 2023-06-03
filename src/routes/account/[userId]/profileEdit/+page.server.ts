@@ -1,5 +1,6 @@
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
+import uniqid from 'uniqid';
 import { validationSchema } from './validation.schema';
 
 export async function load({ url, locals: { supabase }, params }) {
@@ -48,9 +49,10 @@ export const actions = {
 
 		if (avatar && avatar instanceof File) {
 			try {
+				const uniqueId = uniqid();
 				const { data: avatarData, error: avatarError } = await supabase.storage
 					.from('avatars')
-					.upload(`${params.userId}`, avatar, {
+					.upload(`${params.userId}-${uniqueId}`, avatar, {
 						cacheControl: '3600',
 						upsert: true
 					});

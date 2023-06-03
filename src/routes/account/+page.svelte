@@ -22,6 +22,8 @@
 	}
 
 	if (data.userProfile.avatar_url) {
+		console.log(data.userProfile.avatar_url);
+
 		getAvatarUrl(supabase, data.userProfile.avatar_url).then((avatarSrc) => (src = avatarSrc));
 	}
 </script>
