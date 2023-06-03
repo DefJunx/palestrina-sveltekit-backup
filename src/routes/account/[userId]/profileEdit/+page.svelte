@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Avatar from '$src/lib/components/Avatar.svelte';
 
 	import Button from '$src/lib/components/ui/button/Button.svelte';
 	import Input from '$src/lib/components/ui/input/Input.svelte';
+	import { getAvatarUrl } from '$src/lib/utils.js';
 	import { superForm } from 'sveltekit-superforms/client';
-	import Avatar from './Avatar.svelte';
 
 	export let data;
 	const { supabase, avatarPath } = data;
@@ -21,18 +22,9 @@
 		}
 	};
 
-	const downloadAvatar = async () => {
-		try {
-			const { data: avatarUrl } = await supabase.storage.from('avatars').getPublicUrl(avatarPath);
-			avatarSrc = avatarUrl.publicUrl;
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
 	$: {
 		if (avatarPath) {
-			downloadAvatar();
+			getAvatarUrl(supabase, avatarPath).then((src) => (avatarSrc = src));
 		}
 	}
 

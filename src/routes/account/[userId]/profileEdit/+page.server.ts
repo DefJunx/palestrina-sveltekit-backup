@@ -76,7 +76,8 @@ export const actions = {
 			has_compiled: true,
 			full_name,
 			username,
-			avatar_url
+			avatar_url,
+			updated_at: new Date().toISOString()
 		});
 
 		if (error) {
