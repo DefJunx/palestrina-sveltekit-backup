@@ -58,6 +58,10 @@ export const actions = {
 						upsert: true
 					});
 
+				if (avatarError) {
+					console.error(avatarError);
+				}
+
 				if (avatarData) {
 					avatar_url = avatarData.path;
 				}
