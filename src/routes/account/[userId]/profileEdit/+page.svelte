@@ -32,6 +32,9 @@
 		<div class="flex flex-col">
 			<label for="full_name">Nome</label>
 			<Input type="text" name="full_name" bind:value={$form.full_name} />
+			{#if $errors.full_name}
+				<small class="font-semibold text-red-400">{$errors.full_name.join('\n')}</small>
+			{/if}
 		</div>
 		<Button type="submit">Salva</Button>
 	</form>
