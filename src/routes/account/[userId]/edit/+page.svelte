@@ -47,7 +47,7 @@
 
 <form
 	method="post"
-	class="flex w-full flex-col space-y-8 md:mx-auto md:max-w-5xl mt-6"
+	class="flex w-full flex-col space-y-8 md:mx-auto md:max-w-5xl mt-8"
 	use:enhance
 	enctype="multipart/form-data"
 >
