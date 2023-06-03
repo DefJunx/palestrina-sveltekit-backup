@@ -2,7 +2,7 @@ import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/publi
 import type { Database } from '$src/types/database.types';
 import { createSupabaseLoadClient } from '@supabase/auth-helpers-sveltekit';
 
-export const load = async ({ fetch, data, depends }) => {
+export async function load({ fetch, data, depends }) {
 	depends('supabase:auth');
 
 	const supabase = createSupabaseLoadClient<Database>({
@@ -17,4 +17,4 @@ export const load = async ({ fetch, data, depends }) => {
 	} = await supabase.auth.getSession();
 
 	return { supabase, session };
-};
+}

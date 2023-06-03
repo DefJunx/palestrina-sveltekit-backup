@@ -3,7 +3,7 @@ import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { validationSchema } from './validation.schema';
 
-export const load = async ({ url, locals: { supabase }, params }) => {
+export async function load({ url, locals: { supabase }, params }) {
 	let currentProfile: Database['public']['Tables']['profiles']['Row'] | null = null;
 
 	if (!url.searchParams.has('new')) {
@@ -30,7 +30,7 @@ export const load = async ({ url, locals: { supabase }, params }) => {
 	);
 
 	return { form };
-};
+}
 
 export const actions = {
 	default: async ({ request }) => {

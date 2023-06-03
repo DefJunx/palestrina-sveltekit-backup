@@ -1,6 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 
-export const load = async ({ locals: { getUser, supabase } }) => {
+export async function load({ locals: { getUser, supabase } }) {
 	const user = await getUser();
 
 	if (!user) {
@@ -20,4 +20,4 @@ export const load = async ({ locals: { getUser, supabase } }) => {
 	}
 
 	return { userProfile };
-};
+}
