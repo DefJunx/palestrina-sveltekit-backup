@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '$src/app.css';
+	import '$src/app.postcss';
 	import 'iconify-icon';
 
 	import { invalidate } from '$app/navigation';

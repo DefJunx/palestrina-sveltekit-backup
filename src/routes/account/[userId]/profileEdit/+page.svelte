@@ -2,8 +2,9 @@
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	import { page } from '$app/stores';
-	import Button from '$src/components/Button.svelte';
-	import Input from '$src/components/Input.svelte';
+
+	import Button from '$src/lib/components/ui/button/Button.svelte';
+	import Input from '$src/lib/components/ui/input/Input.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
 	import type { PageData } from './$types';
 
@@ -21,12 +22,12 @@
 </h1>
 
 <div class="mt-12">
-	<form method="post" class="flex w-full flex-col space-y-4 md:mx-auto md:max-w-5xl" use:enhance>
+	<form method="post" class="flex w-full flex-col space-y-8 md:mx-auto md:max-w-5xl" use:enhance>
 		<div class="flex flex-col">
 			<label for="username">Username</label>
-			<Input type="text" name="username" bind:value={$form.username} />
+			<Input class="mt-1" type="text" name="username" bind:value={$form.username} />
 			{#if $errors.username}
-				<small class="text-red-400 font-semibold">{$errors.username.join('\n')}</small>
+				<small class="font-semibold text-red-400">{$errors.username.join('\n')}</small>
 			{/if}
 		</div>
 		<div class="flex flex-col">
@@ -37,6 +38,6 @@
 	</form>
 </div>
 
-<div class="absolute bottom-4 w-[1200px] left-[50%] translate-x-[-50%]">
+<div class="absolute bottom-4 left-[50%] w-[1200px] translate-x-[-50%]">
 	<SuperDebug data={$form} />
 </div>

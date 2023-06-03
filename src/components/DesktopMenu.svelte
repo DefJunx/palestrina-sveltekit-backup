@@ -1,1 +1,1 @@
-<aside class="h-screen bg-yellow-500 p-4 pt-8 duration-300 w-80">Palestrina</aside>
+<aside class="h-screen w-80 bg-primary p-4 pt-8 duration-300">Palestrina</aside>
