@@ -6,9 +6,8 @@
 	import Button from '$src/lib/components/ui/button/Button.svelte';
 	import Input from '$src/lib/components/ui/input/Input.svelte';
 	import { superForm } from 'sveltekit-superforms/client';
-	import type { PageData } from './$types';
 
-	export let data: PageData;
+	export let data;
 
 	const { form, errors, enhance } = superForm(data.form);
 </script>

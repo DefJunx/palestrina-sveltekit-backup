@@ -1,10 +1,9 @@
 import type { Database } from '$src/types/database.types';
 import { error, fail } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
-import type { Actions, PageServerLoad } from './$types';
 import { validationSchema } from './validation.schema';
 
-export const load = (async ({ url, locals: { supabase }, params }) => {
+export const load = async ({ url, locals: { supabase }, params }) => {
 	let currentProfile: Database['public']['Tables']['profiles']['Row'] | null = null;
 
 	if (!url.searchParams.has('new')) {
@@ -31,7 +30,7 @@ export const load = (async ({ url, locals: { supabase }, params }) => {
 	);
 
 	return { form };
-}) satisfies PageServerLoad;
+};
 
 export const actions = {
 	default: async ({ request }) => {
@@ -44,4 +43,4 @@ export const actions = {
 
 		return { form };
 	}
-} satisfies Actions;
+};

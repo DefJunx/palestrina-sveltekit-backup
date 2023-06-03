@@ -1,7 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
 
-export const load = (async ({ locals: { getUser, supabase } }) => {
+export const load = async ({ locals: { getUser, supabase } }) => {
 	const user = await getUser();
 
 	if (!user) {
@@ -21,4 +20,4 @@ export const load = (async ({ locals: { getUser, supabase } }) => {
 	}
 
 	return { userProfile };
-}) satisfies PageServerLoad;
+};
