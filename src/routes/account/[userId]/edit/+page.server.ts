@@ -3,18 +3,14 @@ import { superValidate } from 'sveltekit-superforms/server';
 import uniqid from 'uniqid';
 import { validationSchema } from './validation.schema';
 
-export async function load({ url, locals: { supabase }, params }) {
+export async function load({ url, locals: { getProfile }, params }) {
 	let avatarPath = '';
 	let form: Awaited<ReturnType<typeof superValidate>>;
 
 	if (!url.searchParams.has('new')) {
-		const { data: userProfile, error: userProfileError } = await supabase
-			.from('profiles')
-			.select('*')
-			.eq('id', params.userId)
-			.single();
+		const userProfile = await getProfile(params.userId);
 
-		if (userProfileError) {
+		if (!userProfile) {
 			throw error(500);
 		}
 

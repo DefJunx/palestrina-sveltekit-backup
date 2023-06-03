@@ -27,16 +27,21 @@
 </script>
 
 <div class="w-full md:max-w-5xl md:mx-auto">
-	<section class="p-8 border border-primary rounded-lg flex gap-x-8 items-center">
-		<Avatar class="w-32 h-32" {src} username={data.userProfile.username ?? ''} {fallback} />
-		<div class="flex flex-col">
-			<span>Nome: {data.userProfile.full_name}</span>
-			<span>Username: {data.userProfile.username}</span>
+	<section class="p-8 border border-primary rounded-lg">
+		<div class="flex gap-x-8 items-center">
+			<Avatar class="w-32 h-32" {src} alt={data.userProfile.username ?? ''} {fallback} />
+			<div class="flex flex-col">
+				<span>Nome: {data.userProfile.full_name}</span>
+				<span>Username: {data.userProfile.username}</span>
+			</div>
+		</div>
+		<div class="mt-8">
+			<Button href={`/account/${data.userProfile.id}/edit`}>Modifica il profilo</Button>
 		</div>
 	</section>
 	<section class="mt-4">
 		<h2 class="text-xl font-bold">Parametri fitness</h2>
-		<div>
+		<div class="p-8 border border-primary rounded-lg mt-4">
 			{#if data.userProfile.fitness_data}
 				{#each Object.entries(data.userProfile.fitness_data) as [title, value]}
 					<div>
@@ -47,10 +52,7 @@
 			{:else}
 				<div>Non ci sono dati</div>
 			{/if}
+			<Button href={`/account/${data.userProfile.id}/fitness/edit`}>Modifica dati atleta</Button>
 		</div>
 	</section>
-
-	<Button variant="link" href={`/account/${data.userProfile.id}/profileEdit`}
-		>Modifica il profilo</Button
-	>
 </div>

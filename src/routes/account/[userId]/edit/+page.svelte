@@ -68,7 +68,7 @@
 	<div class="flex flex-col">
 		<label for="full_name">Avatar</label>
 		<div class="mt-4 flex items-center gap-x-4">
-			<Avatar src={avatarSrc} username={$form.username ?? ''} fallback={avatarFallback} />
+			<Avatar src={avatarSrc} alt={$form.username ?? ''} fallback={avatarFallback} />
 			<Input type="file" name="avatar" accept="image/*" on:change={previewAvatar} />
 		</div>
 	</div>

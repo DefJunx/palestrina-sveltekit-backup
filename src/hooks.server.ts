@@ -26,6 +26,18 @@ export async function handle({ event, resolve }) {
 		return user;
 	};
 
+	event.locals.getProfile = async (userId: string) => {
+		const { data: userProfile, error: userProfileError } = await event.locals.supabase
+			.from('profiles')
+			.select('*')
+			.eq('id', userId)
+			.single();
+
+		if (userProfileError) return null;
+
+		return userProfile;
+	};
+
 	return resolve(event, {
 		filterSerializedResponseHeaders(name) {
 			return name === 'content-range';
