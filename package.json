@@ -44,6 +44,7 @@
 		"clsx": "^1.2.1",
 		"iconify-icon": "^1.0.7",
 		"lucide-svelte": "^0.233.0",
+		"radix-svelte": "^0.7.1",
 		"sveltekit-superforms": "1.0.0-rc.1",
 		"tailwind-merge": "^1.13.0",
 		"tailwindcss-animate": "^1.0.5",
