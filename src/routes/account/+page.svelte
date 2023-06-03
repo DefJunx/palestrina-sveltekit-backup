@@ -34,8 +34,23 @@
 			<span>Username: {data.userProfile.username}</span>
 		</div>
 	</section>
-	<h1>Account page {JSON.stringify(data.userProfile)}</h1>
+	<section class="mt-4">
+		<h2 class="text-xl font-bold">Parametri fitness</h2>
+		<div>
+			{#if data.userProfile.fitness_data}
+				{#each Object.entries(data.userProfile.fitness_data) as [title, value]}
+					<div>
+						<strong>{title}</strong>
+						<span>{value}</span>
+					</div>
+				{/each}
+			{:else}
+				<div>Non ci sono dati</div>
+			{/if}
+		</div>
+	</section>
+
 	<Button variant="link" href={`/account/${data.userProfile.id}/profileEdit`}
-		>Vai al tuo profilo</Button
+		>Modifica il profilo</Button
 	>
 </div>
