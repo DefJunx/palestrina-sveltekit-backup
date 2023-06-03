@@ -23,22 +23,31 @@ export async function load({ url, locals: { supabase }, params }) {
 	const form = await superValidate(
 		{
 			username: currentProfile?.username ?? '',
-			full_name: currentProfile?.full_name ?? '',
-			avatar_url: currentProfile?.avatar_url ?? ''
+			full_name: currentProfile?.full_name ?? ''
 		},
 		validationSchema
 	);
 
-	return { form };
+	const avatarPath = currentProfile?.avatar_url || '';
+
+	return { form, avatarPath };
 }
 
 export const actions = {
 	default: async ({ request }) => {
-		const form = await superValidate(request, validationSchema);
+		const formData = await request.formData();
+		const form = await superValidate(formData, validationSchema);
 
 		if (!form.valid) {
 			// Again, always return { form } and things will just work.
 			return fail(400, { form });
+		}
+
+		const avatar = formData.get('avatar');
+
+		if (avatar instanceof File) {
+			console.log('file');
+			console.log('avatar', avatar);
 		}
 
 		return { form };

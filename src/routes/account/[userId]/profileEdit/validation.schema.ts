@@ -7,8 +7,7 @@ export const validationSchema = z.object({
 
 	full_name: z
 		.string({ required_error: 'Questo campo è obbligatorio' })
-		.nonempty({ message: 'Per favore compila questo campo' }),
-	avatar_url: z.string().optional()
+		.nonempty({ message: 'Per favore compila questo campo' })
 });
 
 export type ValidationSchema = z.infer<typeof validationSchema>;
