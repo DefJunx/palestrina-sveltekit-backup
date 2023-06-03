@@ -47,9 +47,6 @@ export const actions = {
 		const avatar = formData.get('avatar');
 
 		if (avatar && avatar instanceof File) {
-			console.log('file');
-			console.log('avatar', avatar);
-
 			try {
 				const { data: avatarData, error: avatarError } = await supabase.storage
 					.from('avatars')

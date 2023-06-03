@@ -8,6 +8,7 @@
 
 	export let data;
 	const { supabase, avatarPath } = data;
+	const { form, errors, enhance } = superForm(data.form);
 
 	let avatarFallback = '';
 	let avatarSrc = '';
@@ -38,12 +39,10 @@
 	$: {
 		if ($form.full_name) {
 			const nameParts = $form.full_name.split(' ');
-			const initials = nameParts.map((part) => part.charAt(0).toUpperCase());
+			const initials = nameParts.map((part: string) => part.charAt(0).toUpperCase());
 			avatarFallback = initials.join('');
 		}
 	}
-
-	const { form, errors, enhance } = superForm(data.form);
 </script>
 
 <h1 class="w-full text-xl md:mx-auto md:max-w-5xl">
