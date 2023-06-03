@@ -1,10 +1,10 @@
-import type { Database } from '$src/types/database.types';
-import { error, fail } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import { validationSchema } from './validation.schema';
 
 export async function load({ url, locals: { supabase }, params }) {
-	let currentProfile: Database['public']['Tables']['profiles']['Row'] | null = null;
+	let avatarPath = '';
+	let form: Awaited<ReturnType<typeof superValidate>>;
 
 	if (!url.searchParams.has('new')) {
 		const { data: userProfile, error: userProfileError } = await supabase
@@ -17,26 +17,27 @@ export async function load({ url, locals: { supabase }, params }) {
 			throw error(500);
 		}
 
-		currentProfile = userProfile;
+		form = await superValidate(
+			{
+				username: userProfile.username ?? '',
+				full_name: userProfile.full_name ?? ''
+			},
+			validationSchema
+		);
+
+		avatarPath = userProfile.avatar_url ?? '';
+	} else {
+		form = await superValidate(validationSchema);
 	}
-
-	const form = await superValidate(
-		{
-			username: currentProfile?.username ?? '',
-			full_name: currentProfile?.full_name ?? ''
-		},
-		validationSchema
-	);
-
-	const avatarPath = currentProfile?.avatar_url || '';
 
 	return { form, avatarPath };
 }
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async ({ request, params, locals: { supabase } }) => {
 		const formData = await request.formData();
 		const form = await superValidate(formData, validationSchema);
+		let avatar_url = '';
 
 		if (!form.valid) {
 			// Again, always return { form } and things will just work.
@@ -45,9 +46,44 @@ export const actions = {
 
 		const avatar = formData.get('avatar');
 
-		if (avatar instanceof File) {
+		if (avatar && avatar instanceof File) {
 			console.log('file');
 			console.log('avatar', avatar);
+
+			try {
+				const { data: avatarData, error: avatarError } = await supabase.storage
+					.from('avatars')
+					.upload(`${params.userId}`, avatar, {
+						cacheControl: '3600',
+						upsert: true
+					});
+
+				if (avatarData) {
+					avatar_url = avatarData.path;
+				}
+			} catch (e) {
+				console.error(e);
+			}
+		}
+
+		const {
+			data: { full_name, username }
+		} = form;
+
+		const { count, error } = await supabase.from('profiles').upsert({
+			id: params.userId,
+			has_compiled: true,
+			full_name,
+			username,
+			avatar_url
+		});
+
+		if (error) {
+			return fail(500, { form });
+		}
+
+		if (count !== 0) {
+			throw redirect(302, '/account');
 		}
 
 		return { form };

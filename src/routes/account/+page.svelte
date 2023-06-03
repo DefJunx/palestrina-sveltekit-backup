@@ -4,7 +4,7 @@
 
 	export let data;
 
-	if (data.userProfile.has_compiled) {
+	if (!data.userProfile.has_compiled) {
 		if (browser) {
 			throw goto(`/account/${data.userProfile.id}/profileEdit?new=true`);
 		}

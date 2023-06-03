@@ -9,7 +9,6 @@
 	export let data;
 	const { supabase, avatarPath } = data;
 
-	let files: FileList;
 	let avatarFallback = '';
 	let avatarSrc = '';
 
