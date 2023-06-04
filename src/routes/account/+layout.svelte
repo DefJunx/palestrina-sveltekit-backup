@@ -4,15 +4,15 @@
 
 	export let data;
 
-	$: ({ avatarSrc, fullName } = data);
+	$: ({ avatarSrc, fullName, userId } = data);
 </script>
 
 <div class="flex">
 	{#key data.avatarSrc}
-		<DesktopMenu {avatarSrc} {fullName} />
+		<DesktopMenu {userId} {avatarSrc} {fullName} />
 	{/key}
-	<div class="w-full p-4">
+	<div class="w-full p-4 mb-12 md:mb-0">
 		<slot />
 	</div>
 </div>
-<MobileMenu />
+<MobileMenu {userId} {avatarSrc} {fullName} />

@@ -18,5 +18,5 @@ export async function load(event) {
 		avatarSrc = await getAvatarUrl(event.locals.supabase, userProfile.avatar_path);
 	}
 
-	return { userProfile, avatarSrc, fullName };
+	return { userProfile, avatarSrc, fullName, userId: user.id };
 }

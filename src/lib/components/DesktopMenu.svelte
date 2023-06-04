@@ -5,6 +5,7 @@
 
 	export let avatarSrc: string;
 	export let fullName: string;
+	export let userId: string;
 
 	let fallback = '';
 
