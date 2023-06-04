@@ -15,9 +15,9 @@ export const actions = {
 	default: async ({ locals: { supabase }, params, request }) => {
 		const formData = await request.formData();
 		const { userId } = params;
-		const fitnessData: Record<string, any> = {};
+		const fitnessData: Record<string, string> = {};
 
-		formData.forEach((value, name) => (fitnessData[name] = value));
+		formData.forEach((value, name) => (fitnessData[name] = value as string));
 
 		const validationSchema = z.record(z.string().nonempty(), z.string().nonempty());
 		const validationResult = validationSchema.safeParse(fitnessData);
