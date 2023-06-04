@@ -10,8 +10,8 @@
 	let avatarSrc = '';
 	let fullName = userProfile?.full_name ?? '';
 	$: {
-		if (userProfile && userProfile.avatar_url) {
-			getAvatarUrl(supabase, userProfile.avatar_url).then((src) => (avatarSrc = src));
+		if (userProfile && userProfile.avatar_path) {
+			getAvatarUrl(supabase, userProfile.avatar_path).then((src) => (avatarSrc = src));
 		}
 	}
 </script>

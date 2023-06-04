@@ -8,25 +8,28 @@ export interface Database {
 				Row: {
 					created_at: string | null;
 					id: number;
-					photoUrl: string | null;
-					videoUrl: string | null;
+					name: string | null;
+					photo_path: string | null;
+					video_path: string | null;
 				};
 				Insert: {
 					created_at?: string | null;
 					id?: number;
-					photoUrl?: string | null;
-					videoUrl?: string | null;
+					name?: string | null;
+					photo_path?: string | null;
+					video_path?: string | null;
 				};
 				Update: {
 					created_at?: string | null;
 					id?: number;
-					photoUrl?: string | null;
-					videoUrl?: string | null;
+					name?: string | null;
+					photo_path?: string | null;
+					video_path?: string | null;
 				};
 			};
 			profiles: {
 				Row: {
-					avatar_url: string | null;
+					avatar_path: string | null;
 					fitness_data: Json | null;
 					full_name: string | null;
 					has_compiled: boolean;
@@ -36,7 +39,7 @@ export interface Database {
 					username: string | null;
 				};
 				Insert: {
-					avatar_url?: string | null;
+					avatar_path?: string | null;
 					fitness_data?: Json | null;
 					full_name?: string | null;
 					has_compiled?: boolean;
@@ -46,7 +49,7 @@ export interface Database {
 					username?: string | null;
 				};
 				Update: {
-					avatar_url?: string | null;
+					avatar_path?: string | null;
 					fitness_data?: Json | null;
 					full_name?: string | null;
 					has_compiled?: boolean;
@@ -54,6 +57,29 @@ export interface Database {
 					updated_at?: string | null;
 					user_role?: Database['public']['Enums']['user_role_enum'] | null;
 					username?: string | null;
+				};
+			};
+			training_program: {
+				Row: {
+					athleteId: string | null;
+					created_at: string | null;
+					exerciseId: number | null;
+					id: number;
+					instructions: string | null;
+				};
+				Insert: {
+					athleteId?: string | null;
+					created_at?: string | null;
+					exerciseId?: number | null;
+					id?: number;
+					instructions?: string | null;
+				};
+				Update: {
+					athleteId?: string | null;
+					created_at?: string | null;
+					exerciseId?: number | null;
+					id?: number;
+					instructions?: string | null;
 				};
 			};
 		};

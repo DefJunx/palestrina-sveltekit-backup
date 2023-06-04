@@ -2,6 +2,8 @@ import { handleLoginRedirect } from '$src/lib/utils.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
+	event.depends('update:profile');
+
 	const session = await event.locals.getSession();
 	const user = await event.locals.getUser();
 

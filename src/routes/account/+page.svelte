@@ -21,8 +21,8 @@
 		fallback = getAvatarFallbackfromName(data.userProfile.full_name);
 	}
 
-	if (data.userProfile.avatar_url) {
-		getAvatarUrl(supabase, data.userProfile.avatar_url).then((avatarSrc) => (src = avatarSrc));
+	if (data.userProfile.avatar_path) {
+		getAvatarUrl(supabase, data.userProfile.avatar_path).then((avatarSrc) => (src = avatarSrc));
 	}
 </script>
 

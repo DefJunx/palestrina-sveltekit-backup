@@ -1,3 +1,4 @@
+import { invalidate } from '$app/navigation';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import uniqid from 'uniqid';
@@ -22,7 +23,7 @@ export async function load({ url, locals: { getProfile }, params }) {
 			validationSchema
 		);
 
-		avatarPath = userProfile.avatar_url ?? '';
+		avatarPath = userProfile.avatar_path ?? '';
 	} else {
 		form = await superValidate(validationSchema);
 	}
@@ -34,7 +35,7 @@ export const actions = {
 	default: async ({ request, params, locals: { supabase } }) => {
 		const formData = await request.formData();
 		const form = await superValidate(formData, validationSchema);
-		let avatar_url = '';
+		let avatar_path = '';
 
 		if (!form.valid) {
 			// Again, always return { form } and things will just work.
@@ -58,7 +59,7 @@ export const actions = {
 				}
 
 				if (avatarData) {
-					avatar_url = avatarData.path;
+					avatar_path = avatarData.path;
 				}
 			} catch (e) {
 				console.error(e);
@@ -74,7 +75,7 @@ export const actions = {
 			has_compiled: true,
 			full_name,
 			username,
-			avatar_url,
+			avatar_path,
 			updated_at: new Date().toISOString()
 		});
 
@@ -86,6 +87,7 @@ export const actions = {
 			throw redirect(302, '/account');
 		}
 
+		invalidate('update:profile');
 		return { form };
 	}
 };

@@ -34,7 +34,7 @@ export const actions = {
 
 		const { error: supabaseUpdateError } = await supabase
 			.from('profiles')
-			.update({ fitness_data: fitnessData })
+			.update({ fitness_data: fitnessData, updated_at: new Date().toISOString() })
 			.eq('id', userId);
 
 		if (supabaseUpdateError) {
