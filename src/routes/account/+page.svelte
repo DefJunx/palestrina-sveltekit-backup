@@ -52,7 +52,9 @@
 			{:else}
 				<div>Non ci sono dati</div>
 			{/if}
-			<Button href={`/account/${data.userProfile.id}/fitness/edit`}>Modifica dati atleta</Button>
+			<div class="mt-4">
+				<Button href={`/account/${data.userProfile.id}/fitness/edit`}>Modifica dati atleta</Button>
+			</div>
 		</div>
 	</section>
 </div>

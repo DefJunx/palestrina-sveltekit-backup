@@ -6,18 +6,35 @@
 
 	const { userProfile } = data;
 
-	let fitnessData = userProfile.fitness_data ?? {};
+	const addParameter = () => {
+		console.log('implement add parameter');
+	};
+
+	console.log(userProfile.fitness_data);
+
+	let fitnessData = Object.entries(userProfile.fitness_data as Record<string, any>) ?? [];
 </script>
 
-<h1>Fitness edit</h1>
+<h1 class="w-full text-xl md:mx-auto md:max-w-5xl">Modifica parametri atleta</h1>
 
-<form method="post" class="flex w-full flex-col space-y-8 md:mx-auto md:max-w-5xl mt-8">
-	{#each Object.entries(fitnessData) as [title, value], i}
-		<div class="flex">
-			<input type="hidden" name={`fitness_${i}`} bind:value={title} />
-			<Input bind:value name={`fitness_${i}`} />
-		</div>
-	{/each}
+<form method="post" class=" w-full md:mx-auto md:max-w-5xl mt-8">
+	<div class="p-8 border border-primary space-y-8 flex-col flex">
+		{#each fitnessData as [title, value]}
+			<div class="flex items-center gap-x-4">
+				<div>
+					<label for="">Nome parametro</label>
+					<Input bind:value={title} />
+				</div>
+				<span class="pt-6">:</span>
+				<div class="w-full">
+					<label for="">Valore parametro</label>
+					<Input bind:value />
+				</div>
+				<Button class="mt-6" variant="ghost">-</Button>
+			</div>
+		{/each}
+		<Button type="button" on:click={addParameter} variant="outline">Aggiungi parametro</Button>
+	</div>
 
-	<Button>Salva</Button>
+	<Button class="w-full mt-8">Salva</Button>
 </form>
