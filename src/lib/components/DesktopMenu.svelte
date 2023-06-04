@@ -8,8 +8,6 @@
 
 	let fallback = '';
 
-	$: console.log('avatarSrc', avatarSrc);
-
 	$: {
 		fallback = getAvatarFallbackfromName(fullName);
 	}

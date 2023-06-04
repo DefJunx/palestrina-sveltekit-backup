@@ -4,11 +4,10 @@
 
 	import Button from '$src/lib/components/ui/button/Button.svelte';
 	import Input from '$src/lib/components/ui/input/Input.svelte';
-	import { getAvatarUrl } from '$src/lib/utils.js';
 	import { superForm } from 'sveltekit-superforms/client';
 
 	export let data;
-	const { supabase, avatarPath } = data;
+
 	const { form, errors, enhance } = superForm(data.form, {
 		onSubmit() {
 			loading = true;
@@ -19,7 +18,7 @@
 	});
 
 	let avatarFallback = '';
-	let avatarSrc = '';
+	let avatarSrc = data.avatarSrc;
 	let loading = false;
 
 	const previewAvatar = async (e: Event) => {
@@ -29,12 +28,6 @@
 			avatarSrc = URL.createObjectURL(avatar);
 		}
 	};
-
-	$: {
-		if (avatarPath) {
-			getAvatarUrl(supabase, avatarPath).then((src) => (avatarSrc = src));
-		}
-	}
 
 	$: {
 		if ($form.full_name) {
@@ -92,5 +85,6 @@
 			/>
 		</div>
 	</div>
+	<input type="hidden" name="originalPath" value={data.avatarPath} />
 	<Button disabled={loading} type="submit">Salva</Button>
 </form>

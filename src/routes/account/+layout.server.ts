@@ -2,8 +2,6 @@ import { getAvatarUrl, handleLoginRedirect } from '$src/lib/utils.js';
 import { redirect } from '@sveltejs/kit';
 
 export async function load(event) {
-	console.log('layout load');
-
 	event.depends('update:profile');
 
 	const session = await event.locals.getSession();
@@ -19,10 +17,6 @@ export async function load(event) {
 	if (userProfile && userProfile.avatar_path) {
 		avatarSrc = await getAvatarUrl(event.locals.supabase, userProfile.avatar_path);
 	}
-
-	console.log('avatarPath', userProfile?.avatar_path);
-	console.log('fullNAme', userProfile?.full_name);
-	console.log('------');
 
 	return { userProfile, avatarSrc, fullName };
 }

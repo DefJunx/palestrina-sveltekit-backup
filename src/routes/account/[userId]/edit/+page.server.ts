@@ -1,12 +1,14 @@
 import { invalidate } from '$app/navigation';
+import { getAvatarUrl } from '$src/lib/utils';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
 import uniqid from 'uniqid';
 import { validationSchema } from './validation.schema';
 
-export async function load({ url, locals: { getProfile }, params }) {
+export async function load({ url, locals: { getProfile, supabase }, params }) {
 	let avatarPath = '';
 	let form: Awaited<ReturnType<typeof superValidate>>;
+	let avatarSrc = '';
 
 	if (!url.searchParams.has('new')) {
 		const userProfile = await getProfile(params.userId);
@@ -24,18 +26,22 @@ export async function load({ url, locals: { getProfile }, params }) {
 		);
 
 		avatarPath = userProfile.avatar_path ?? '';
+
+		if (avatarPath !== '') {
+			avatarSrc = await getAvatarUrl(supabase, avatarPath);
+		}
 	} else {
 		form = await superValidate(validationSchema);
 	}
 
-	return { form, avatarPath };
+	return { form, avatarSrc, avatarPath };
 }
 
 export const actions = {
 	default: async ({ request, params, locals: { supabase } }) => {
 		const formData = await request.formData();
 		const form = await superValidate(formData, validationSchema);
-		let avatar_path = '';
+		let avatar_path: string = formData.get('originalPath') as string;
 
 		if (!form.valid) {
 			// Again, always return { form } and things will just work.
@@ -44,7 +50,10 @@ export const actions = {
 
 		const avatar = formData.get('avatar');
 
-		if (avatar && avatar instanceof File) {
+		console.log('avatar', avatar);
+		console.log('originalPath', avatar_path);
+
+		if (avatar && avatar instanceof File && avatar.size > 0) {
 			try {
 				const uniqueId = uniqid();
 				const { data: avatarData, error: avatarError } = await supabase.storage
