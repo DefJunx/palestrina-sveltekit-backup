@@ -15,7 +15,8 @@ export const actions = {
 	default: async ({ locals: { supabase }, params, request }) => {
 		const formData = await request.formData();
 		const { userId } = params;
-		const fitnessData: Record<string, string> = {};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const fitnessData: Record<string, any> = {};
 
 		formData.forEach((value, name) => (fitnessData[name] = value as string));
 
