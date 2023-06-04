@@ -1,10 +1,11 @@
 import { error, fail } from '@sveltejs/kit';
+import { z } from 'zod';
 
 export async function load({ locals, params: { userId } }) {
 	const userProfile = await locals.getProfile(userId);
 
 	if (!userProfile) {
-		throw error(500);
+		throw error(500, { message: 'Internal server error' });
 	}
 
 	return { userProfile };
@@ -13,17 +14,31 @@ export async function load({ locals, params: { userId } }) {
 export const actions = {
 	default: async ({ locals: { supabase }, params, request }) => {
 		const formData = await request.formData();
-		console.log(formData);
-		const object: Record<string, any> = {};
+		const { userId } = params;
+		const fitnessData: Record<string, any> = {};
 
-		formData.forEach((value, name) => (object[name] = value));
+		formData.forEach((value, name) => (fitnessData[name] = value));
 
-		console.log(object);
+		const validationSchema = z.record(z.string().nonempty(), z.string().nonempty());
+		const validationResult = validationSchema.safeParse(fitnessData);
 
-		const isFail = true;
+		console.log(validationResult);
 
-		if (isFail) {
-			return fail(400, { object, error: true });
+		if (!validationResult.success) {
+			return fail(400, {
+				fitnessData,
+				error: true,
+				errorMessage: 'Si prega di compilare tutti i campi'
+			});
+		}
+
+		const { error: supabaseUpdateError } = await supabase
+			.from('profiles')
+			.update({ fitness_data: fitnessData })
+			.eq('id', userId);
+
+		if (supabaseUpdateError) {
+			throw error(500, { message: `Internal server error: ${supabaseUpdateError.message}` });
 		}
 
 		return { success: true };
