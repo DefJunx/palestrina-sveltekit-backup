@@ -87,7 +87,7 @@ export const actions = {
 			throw redirect(302, '/account');
 		}
 
-		invalidate('update:profile');
+		await invalidate('update:profile');
 		return { form };
 	}
 };

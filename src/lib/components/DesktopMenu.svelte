@@ -3,10 +3,12 @@
 	import Avatar from './Avatar.svelte';
 	import Button from './ui/button/Button.svelte';
 
-	export let avatarSrc = '';
-	export let fullName = '';
+	export let avatarSrc: string;
+	export let fullName: string;
 
 	let fallback = '';
+
+	$: console.log('avatarSrc', avatarSrc);
 
 	$: {
 		fallback = getAvatarFallbackfromName(fullName);

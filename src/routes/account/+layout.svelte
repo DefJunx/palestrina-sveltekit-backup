@@ -4,11 +4,13 @@
 
 	export let data;
 
-	const { avatarSrc, fullName } = data;
+	$: ({ avatarSrc, fullName } = data);
 </script>
 
 <div class="flex">
-	<DesktopMenu {avatarSrc} {fullName} />
+	{#key data.avatarSrc}
+		<DesktopMenu {avatarSrc} {fullName} />
+	{/key}
 	<div class="w-full p-4">
 		<slot />
 	</div>
