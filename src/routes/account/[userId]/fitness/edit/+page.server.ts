@@ -13,6 +13,6 @@ export async function load({ locals, params: { userId } }) {
 export const actions = {
 	default: async ({ locals: { supabase }, params, request }) => {
 		const formData = await request.formData();
-		const fitness = formData.forEach((el) => console.log(el));
+		console.log(formData);
 	}
 };
