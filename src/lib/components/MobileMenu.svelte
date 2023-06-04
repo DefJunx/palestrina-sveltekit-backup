@@ -2,8 +2,6 @@
 	import { Calendar, Dumbbell, Home } from 'lucide-svelte';
 	import MenuElement from './MenuElement.svelte';
 
-	export let avatarSrc: string;
-	export let fullName: string;
 	export let userId: string;
 </script>
 

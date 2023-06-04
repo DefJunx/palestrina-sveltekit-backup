@@ -1,5 +1,5 @@
-import { getAvatarUrl, handleLoginRedirect } from '$src/lib/utils.js';
-import { redirect } from '@sveltejs/kit';
+import { handleLoginRedirect } from '$src/lib/utils.js';
+import { error, redirect } from '@sveltejs/kit';
 
 export async function load(event) {
 	event.depends('update:profile');
@@ -11,12 +11,9 @@ export async function load(event) {
 
 	const userProfile = await event.locals.getProfile(user.id);
 
-	let avatarSrc = '';
-	const fullName = userProfile?.full_name ?? '';
-
-	if (userProfile && userProfile.avatar_path) {
-		avatarSrc = await getAvatarUrl(event.locals.supabase, userProfile.avatar_path);
+	if (!userProfile) {
+		throw error(500, 'Profile does not exist');
 	}
 
-	return { userProfile, avatarSrc, fullName, userId: user.id };
+	return { userProfile, userId: user.id };
 }
