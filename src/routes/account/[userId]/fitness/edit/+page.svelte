@@ -39,7 +39,7 @@
 
 <form method="post" class=" w-full md:mx-auto md:max-w-5xl mt-8" use:enhance={handleSubmit}>
 	{#if form?.error}
-		hez
+		<div />
 	{/if}
 	<div class="p-8 border border-primary space-y-8 flex-col flex">
 		{#each fitnessData as [name, value]}
