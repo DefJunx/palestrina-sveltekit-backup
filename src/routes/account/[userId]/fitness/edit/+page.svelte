@@ -19,8 +19,9 @@
 		fitnessData = [...fitnessData, ['', '']];
 	};
 
-	const removeParameter = () => {
-		console.log('implement remove parameter');
+	const removeParameter = (indexToRemove: number) => {
+		console.log('implement remove parameter', indexToRemove);
+		fitnessData = fitnessData.filter((el, idx) => idx !== indexToRemove);
 	};
 
 	const handleSubmit: SubmitFunction = ({ formData }) => {
@@ -36,7 +37,9 @@
 		};
 	};
 
-	let fitnessData = Object.entries(userProfile.fitness_data as Record<string, any>) ?? [];
+	let fitnessData = userProfile.fitness_data
+		? Object.entries(userProfile.fitness_data as Record<string, any>)
+		: [];
 </script>
 
 <h1 class="w-full text-xl md:mx-auto md:max-w-5xl">Modifica parametri atleta</h1>
@@ -48,27 +51,35 @@
 		</div>
 	{/if}
 	<div class="p-8 border border-primary space-y-8 flex-col flex">
-		{#each fitnessData as [name, value]}
+		{#each fitnessData as [name, value], i}
 			<div class="flex items-center gap-x-4">
 				<div>
 					<label for="">Nome parametro</label>
-					<Input bind:value={name} />
+					<Input disabled={loading} bind:value={name} />
 				</div>
 				<span class="pt-6">:</span>
 				<div class="w-full">
 					<label for="">Valore parametro</label>
-					<Input bind:value />
+					<Input disabled={loading} bind:value />
 				</div>
 				<input
 					type="hidden"
 					name={form?.fitnessData?.[name]?.name ?? name}
 					value={form?.fitnessData?.[name]?.value ?? value}
 				/>
-				<Button class="mt-6" type="button" variant="ghost" on:click={removeParameter}>-</Button>
+				<Button
+					disabled={loading}
+					class="mt-6"
+					type="button"
+					variant="ghost"
+					on:click={(e) => removeParameter(i)}>-</Button
+				>
 			</div>
 		{/each}
-		<Button type="button" on:click={addParameter} variant="outline">Aggiungi parametro</Button>
+		<Button disabled={loading} type="button" on:click={addParameter} variant="outline"
+			>Aggiungi parametro</Button
+		>
 	</div>
 
-	<Button class="w-full mt-8">Salva</Button>
+	<Button disabled={loading} class="w-full mt-8">Salva</Button>
 </form>
