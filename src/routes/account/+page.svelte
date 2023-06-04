@@ -3,13 +3,12 @@
 	import { goto } from '$app/navigation';
 	import Avatar from '$src/lib/components/Avatar.svelte';
 	import Button from '$src/lib/components/ui/button/Button.svelte';
-	import { getAvatarFallbackfromName, getAvatarUrl } from '$src/lib/utils.js';
+	import { getAvatarFallbackfromName } from '$src/lib/utils.js';
 
 	export let data;
-	let fallback = '';
-	let src = '';
 
-	const { supabase } = data;
+	let fallback = '';
+	let src = data.avatarSrc;
 
 	if (!data.userProfile.has_compiled) {
 		if (browser) {
@@ -17,12 +16,10 @@
 		}
 	}
 
-	if (data.userProfile.full_name) {
-		fallback = getAvatarFallbackfromName(data.userProfile.full_name);
-	}
-
-	if (data.userProfile.avatar_path) {
-		getAvatarUrl(supabase, data.userProfile.avatar_path).then((avatarSrc) => (src = avatarSrc));
+	$: {
+		if (data.userProfile.full_name) {
+			fallback = getAvatarFallbackfromName(data.userProfile.full_name);
+		}
 	}
 </script>
 

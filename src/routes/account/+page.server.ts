@@ -1,3 +1,4 @@
+import { getAvatarUrl } from '$src/lib/utils.js';
 import { error, redirect } from '@sveltejs/kit';
 
 export async function load({ locals: { getUser, supabase } }) {
@@ -17,5 +18,11 @@ export async function load({ locals: { getUser, supabase } }) {
 		throw error(500, profileError.message);
 	}
 
-	return { userProfile };
+	let avatarSrc = '';
+
+	if (userProfile.avatar_path) {
+		avatarSrc = await getAvatarUrl(supabase, userProfile.avatar_path);
+	}
+
+	return { userProfile, avatarSrc };
 }

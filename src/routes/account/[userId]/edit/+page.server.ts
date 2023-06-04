@@ -2,7 +2,6 @@ import { invalidate } from '$app/navigation';
 import { getAvatarUrl } from '$src/lib/utils';
 import { error, fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
-import uniqid from 'uniqid';
 import { validationSchema } from './validation.schema';
 
 export async function load({ url, locals: { getProfile, supabase }, params }) {
@@ -52,10 +51,9 @@ export const actions = {
 
 		if (avatar && avatar instanceof File && avatar.size > 0) {
 			try {
-				const uniqueId = uniqid();
 				const { data: avatarData, error: avatarError } = await supabase.storage
 					.from('avatars')
-					.upload(`${params.userId}-${uniqueId}`, avatar, {
+					.upload(`${params.userId}`, avatar, {
 						cacheControl: '3600',
 						upsert: true
 					});

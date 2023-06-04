@@ -7,12 +7,12 @@
 
 	let size = 24;
 
-	$: size = innerWidth < 1024 ? 24 : 48;
+	$: size = innerWidth < 1024 ? 24 : 36;
 </script>
 
 <svelte:window bind:innerWidth />
 
-<a {href} class="flex flex-col items-center">
+<a {href} class="flex flex-col md:gap-x-8 md:flex-row items-center">
 	<Icon {size} color="white" />
-	<span class="text-xs text-white">{label}</span>
+	<span class="text-xs md:text-lg text-white">{label}</span>
 </a>
