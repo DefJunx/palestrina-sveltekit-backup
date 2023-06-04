@@ -9,10 +9,18 @@
 
 	export let data;
 	const { supabase, avatarPath } = data;
-	const { form, errors, enhance } = superForm(data.form);
+	const { form, errors, enhance } = superForm(data.form, {
+		onSubmit(input) {
+			loading = true;
+		},
+		onResult(event) {
+			loading = false;
+		}
+	});
 
 	let avatarFallback = '';
 	let avatarSrc = '';
+	let loading = false;
 
 	const previewAvatar = async (e: Event) => {
 		const inputElement = e.target as HTMLInputElement;
@@ -53,14 +61,20 @@
 >
 	<div class="flex flex-col">
 		<label for="username">Username</label>
-		<Input class="mt-1" type="text" name="username" bind:value={$form.username} />
+		<Input
+			disabled={loading}
+			class="mt-1"
+			type="text"
+			name="username"
+			bind:value={$form.username}
+		/>
 		{#if $errors.username}
 			<small class="font-semibold text-red-400">{$errors.username}</small>
 		{/if}
 	</div>
 	<div class="flex flex-col">
 		<label for="full_name">Nome</label>
-		<Input type="text" name="full_name" bind:value={$form.full_name} />
+		<Input disabled={loading} type="text" name="full_name" bind:value={$form.full_name} />
 		{#if $errors.full_name}
 			<small class="font-semibold text-red-400">{$errors.full_name}</small>
 		{/if}
@@ -69,8 +83,14 @@
 		<label for="full_name">Avatar</label>
 		<div class="mt-4 flex items-center gap-x-4">
 			<Avatar src={avatarSrc} alt={$form.username ?? ''} fallback={avatarFallback} />
-			<Input type="file" name="avatar" accept="image/*" on:change={previewAvatar} />
+			<Input
+				disabled={loading}
+				type="file"
+				name="avatar"
+				accept="image/*"
+				on:change={previewAvatar}
+			/>
 		</div>
 	</div>
-	<Button type="submit">Salva</Button>
+	<Button disabled={loading} type="submit">Salva</Button>
 </form>
