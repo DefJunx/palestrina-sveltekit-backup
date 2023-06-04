@@ -10,10 +10,10 @@
 	export let data;
 	const { supabase, avatarPath } = data;
 	const { form, errors, enhance } = superForm(data.form, {
-		onSubmit(input) {
+		onSubmit() {
 			loading = true;
 		},
-		onResult(event) {
+		onResult() {
 			loading = false;
 		}
 	});
