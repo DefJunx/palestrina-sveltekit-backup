@@ -14,8 +14,6 @@ export async function load({ locals: { getUser, supabase } }) {
 		.single();
 
 	if (profileError) {
-		console.log('profileError');
-
 		throw error(500, profileError.message);
 	}
 

@@ -50,9 +50,6 @@ export const actions = {
 
 		const avatar = formData.get('avatar');
 
-		console.log('avatar', avatar);
-		console.log('originalPath', avatar_path);
-
 		if (avatar && avatar instanceof File && avatar.size > 0) {
 			try {
 				const uniqueId = uniqid();

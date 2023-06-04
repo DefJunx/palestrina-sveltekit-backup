@@ -15,12 +15,10 @@
 	const { userProfile } = data;
 
 	const addParameter = () => {
-		console.log('implement add parameter');
-		fitnessData = [...fitnessData, ['', '']];
+		fitnessData = [...fitnessData, ['Nuovo parametro', '']];
 	};
 
 	const removeParameter = (indexToRemove: number) => {
-		console.log('implement remove parameter', indexToRemove);
 		fitnessData = fitnessData.filter((el, idx) => idx !== indexToRemove);
 	};
 
