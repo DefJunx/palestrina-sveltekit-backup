@@ -49,6 +49,17 @@
 			{:else}
 				<div>Non ci sono dati</div>
 			{/if}
+			<hr class="text-primary my-4 border-primary" />
+			{#if data.userProfile.fitness_notes}
+				<div>
+					<h2 class="text-lg font-semibold">Note</h2>
+					<div
+						class="mt-2 prose p-2 border border-primary min-w-full"
+						bind:innerHTML={data.userProfile.fitness_notes}
+						contenteditable="false"
+					/>
+				</div>
+			{/if}
 			<div class="mt-4">
 				<Button href={`/account/${data.userProfile.id}/fitness/edit`}>Modifica dati atleta</Button>
 			</div>
