@@ -12,10 +12,10 @@
 			element: element,
 			extensions: [StarterKit],
 			content,
-			onUpdate: ({ editor }) => {
+			onUpdate({ editor }) {
 				content = editor.getHTML();
 			},
-			onTransaction: () => {
+			onTransaction() {
 				editor = editor;
 			},
 			editorProps: {
