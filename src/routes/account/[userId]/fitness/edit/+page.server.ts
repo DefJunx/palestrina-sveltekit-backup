@@ -18,10 +18,6 @@ export const actions = {
 	default: async ({ locals: { supabase }, params, request }) => {
 		const payload = Object.fromEntries(await request.formData());
 		const { fitness_notes, ...fitness_data } = payload;
-
-		console.log('fitness_notes', fitness_notes);
-		console.log('fitness_data', fitness_data);
-
 		const validationSchema = z.record(z.string().nonempty(), z.string().nonempty());
 		const validationResult = validationSchema.safeParse(fitness_data);
 
