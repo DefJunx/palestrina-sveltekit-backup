@@ -31,6 +31,7 @@ export interface Database {
 				Row: {
 					avatar_path: string | null;
 					fitness_data: Json | null;
+					fitness_notes: string | null;
 					full_name: string | null;
 					has_compiled: boolean;
 					id: string;
@@ -41,6 +42,7 @@ export interface Database {
 				Insert: {
 					avatar_path?: string | null;
 					fitness_data?: Json | null;
+					fitness_notes?: string | null;
 					full_name?: string | null;
 					has_compiled?: boolean;
 					id: string;
@@ -51,6 +53,7 @@ export interface Database {
 				Update: {
 					avatar_path?: string | null;
 					fitness_data?: Json | null;
+					fitness_notes?: string | null;
 					full_name?: string | null;
 					has_compiled?: boolean;
 					id?: string;

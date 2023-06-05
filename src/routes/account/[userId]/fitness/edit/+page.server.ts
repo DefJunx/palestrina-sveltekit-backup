@@ -8,7 +8,9 @@ export async function load({ locals, params: { userId } }) {
 		throw error(500, { message: 'Internal server error' });
 	}
 
-	return { userProfile };
+	const notesContent = userProfile.fitness_notes ?? '';
+
+	return { userProfile, notesContent };
 }
 
 export const actions = {
@@ -17,11 +19,21 @@ export const actions = {
 		const { userId } = params;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const fitnessData: Record<string, any> = {};
+		const fitness_notes = (formData.get('fitness_notes') as string | null) ?? '';
 
-		formData.forEach((value, name) => (fitnessData[name] = value as string));
+		formData.forEach((value, name) => {
+			console.log('name', name);
+			console.log('value', value);
+
+			if (name !== 'fitness_notes') {
+				fitnessData[name] = value as string;
+			}
+		});
 
 		const validationSchema = z.record(z.string().nonempty(), z.string().nonempty());
 		const validationResult = validationSchema.safeParse(fitnessData);
+
+		console.log(fitnessData);
 
 		if (!validationResult.success) {
 			return fail(400, {
@@ -33,7 +45,7 @@ export const actions = {
 
 		const { error: supabaseUpdateError } = await supabase
 			.from('profiles')
-			.update({ fitness_data: fitnessData, updated_at: new Date().toISOString() })
+			.update({ fitness_data: fitnessData, updated_at: new Date().toISOString(), fitness_notes })
 			.eq('id', userId);
 
 		if (supabaseUpdateError) {

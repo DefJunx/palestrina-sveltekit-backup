@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import ErrorAlert from '$src/lib/components/ErrorAlert.svelte';
+	import TipTap from '$src/lib/components/TipTap.svelte';
 
 	import Button from '$src/lib/components/ui/button/Button.svelte';
 	import Input from '$src/lib/components/ui/input/Input.svelte';
@@ -10,9 +11,10 @@
 	export let data;
 	export let form;
 
-	let loading = false;
-
 	const { userProfile } = data;
+
+	let loading = false;
+	let notes = data.notesContent;
 
 	const addParameter = () => {
 		fitnessData = [...fitnessData, ['Nuovo parametro', '']];
@@ -77,6 +79,11 @@
 		<Button disabled={loading} type="button" on:click={addParameter} variant="outline"
 			>Aggiungi parametro</Button
 		>
+	</div>
+
+	<div class="mt-4 p-8 border border-primary">
+		<TipTap bind:content={notes} />
+		<input type="hidden" name="fitness_notes" value={notes} />
 	</div>
 
 	<Button disabled={loading} class="w-full mt-8">Salva</Button>

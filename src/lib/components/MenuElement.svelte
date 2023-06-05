@@ -13,6 +13,6 @@
 <svelte:window bind:innerWidth />
 
 <a {href} class="flex flex-col md:gap-x-8 md:flex-row items-center">
-	<Icon {size} color="white" />
+	<svelte:component this={Icon} color="white" />
 	<span class="text-xs md:text-lg text-white">{label}</span>
 </a>
