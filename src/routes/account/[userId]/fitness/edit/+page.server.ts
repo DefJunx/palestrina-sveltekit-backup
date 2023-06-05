@@ -1,3 +1,4 @@
+import type { Json } from '$src/types/database.types.js';
 import { error, fail } from '@sveltejs/kit';
 import { z } from 'zod';
 
@@ -15,27 +16,19 @@ export async function load({ locals, params: { userId } }) {
 
 export const actions = {
 	default: async ({ locals: { supabase }, params, request }) => {
-		const formData = await request.formData();
-		const { userId } = params;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const fitnessData: Record<string, any> = {};
-		const fitness_notes = (formData.get('fitness_notes') as string | null) ?? '';
+		const payload = Object.fromEntries(await request.formData());
+		const { fitness_notes, ...fitness_data } = payload;
 
-		formData.forEach((value, name) => {
-			console.log('name', name);
-			console.log('value', value);
-
-			if (name !== 'fitness_notes') {
-				fitnessData[name] = value as string;
-			}
-		});
+		console.log('fitness_notes', fitness_notes);
+		console.log('fitness_data', fitness_data);
 
 		const validationSchema = z.record(z.string().nonempty(), z.string().nonempty());
-		const validationResult = validationSchema.safeParse(fitnessData);
+		const validationResult = validationSchema.safeParse(fitness_data);
 
 		if (!validationResult.success) {
 			return fail(400, {
-				fitnessData,
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				fitnessData: fitness_data as Record<string, any>,
 				error: true,
 				errorMessage: 'Si prega di compilare tutti i campi'
 			});
@@ -43,8 +36,12 @@ export const actions = {
 
 		const { error: supabaseUpdateError } = await supabase
 			.from('profiles')
-			.update({ fitness_data: fitnessData, updated_at: new Date().toISOString(), fitness_notes })
-			.eq('id', userId);
+			.update({
+				fitness_data: fitness_data as Json,
+				updated_at: new Date().toISOString(),
+				fitness_notes: fitness_notes as string
+			})
+			.eq('id', params.userId);
 
 		if (supabaseUpdateError) {
 			throw error(500, { message: `Internal server error: ${supabaseUpdateError.message}` });
