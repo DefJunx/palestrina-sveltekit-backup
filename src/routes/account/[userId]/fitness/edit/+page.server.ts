@@ -33,8 +33,6 @@ export const actions = {
 		const validationSchema = z.record(z.string().nonempty(), z.string().nonempty());
 		const validationResult = validationSchema.safeParse(fitnessData);
 
-		console.log(fitnessData);
-
 		if (!validationResult.success) {
 			return fail(400, {
 				fitnessData,
