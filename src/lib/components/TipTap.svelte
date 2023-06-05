@@ -7,8 +7,6 @@
 	let element: HTMLDivElement;
 	export let content = '';
 
-	$: console.log(content);
-
 	onMount(() => {
 		editor = new Editor({
 			element: element,
